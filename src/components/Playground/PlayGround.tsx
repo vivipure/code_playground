@@ -1,6 +1,6 @@
-import { useLocalStorage } from "../hooks/useLocalstorage";
+import { useLocalStorage } from "../../hooks/useLocalstorage";
 import EditFileList from "./EditFileList";
-import Editor from "./Editor";
+import Editor from "../Editor/Editor";
 
 import type { FileInterface } from "./EditFileList";
 import { createEffect, createSignal } from "solid-js";

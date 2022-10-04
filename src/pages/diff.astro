@@ -1,0 +1,711 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DiffEditor from '../components/DiffEditor/DiffEditor'
+
+const text1 = `
+			const buildTree = files => {
+				const arr = [];
+				const temp = files.reduce( (a,n) => {
+					if(n.includes('/')){
+						const dir = n.substring(0,n.indexOf('/'));
+						a[dir] || (a[dir] = {text: dir, items: []}) 
+						a[dir].items.push(n.substring(n.indexOf('/') + 1))
+					}
+					return a
+				}, {});
+
+				for( let l in temp){
+					if(temp.hasOwnProperty(l)){
+						const layer = temp[l];
+						arr.push({
+							"text": layer.text,
+							"items": buildTree(layer.items)
+						})
+					}
+				}
+
+				files.forEach( file => {
+					if(!file.includes('/')){
+						arr.push({"text": file})
+					}
+				});
+
+				return arr;
+			}
+
+			const showTree = (listType, itemType, listClass, rootTree, rootElem) => {	
+				let recursion = (tree, elem) => {
+					tree.forEach( item => {
+						const newItem = document.createElement(itemType);
+						newItem.innerHTML = \`<span>\${item.text}</span>\`;
+						elem.appendChild(newItem);
+						if(item.items){
+							const newList = document.createElement(listType);
+							newItem.classList.add(listClass);
+							newItem.appendChild(newList);
+							recursion(item.items, newList)
+						} 
+						else {
+							newItem.classList.add('file');
+						}
+					})
+				};
+				recursion(rootTree, rootElem)
+			}
+
+			const rootList = document.querySelector('.tree');
+			const ourTree = showTree('ul', 'li', 'sublist', buildTree(['README.md',"dir/filea","dir/fileb","dir2/filec", "dir/subdir/someFile", "dir/subdir/someFile2", "dir/subdir/someFile3", "dir/subdir/someFile4", "dir/sub/sub/sub/sub/sub/sub/file"]), rootList);
+
+			rootList.addEventListener('click', e => {
+				if(e.target.closest('li').classList.contains('sublist')){
+					e.target.closest('li').classList.toggle('active');
+				}
+
+				if(e.target.closest('li').classList.contains('file')){
+					let elem = e.target,
+						str = '';
+					while(elem && elem !== rootList){
+						elem = elem.parentElement.closest('li');
+						let dir = elem ? elem.children[0].innerText : '';
+						str = \`$\{str && dir ? \`$\{dir}/\` : dir}$\{str}\`;
+
+					}
+					console.log(str);
+				}
+			});
+		
+		console.clear();
+			const v1Data = new Promise((res, rej) => {
+				res({
+					v: 1,
+					store1: {
+						some: "some",
+						sample: "sample",
+						data: {
+							thatIsStructured: ["data","that", "is", "structured", "!"],
+							aFewLevels: "a few levels",
+							yep: "yep"
+						}
+					},
+					store2: ["hi","there","billy"]
+				});
+			});
+
+			const v1_2Data = new Promise((res, rej) => {
+				res({
+					v: 1.2,
+					key: {
+						store3: "name"
+					},
+					merge: [{
+						property: \`store1.data.thatIsStructured\`,
+						type: \`add\`,
+						value: \`correctly with\`
+					},{
+						property: \`store1.data.thatIsStructured\`,
+						type: \`remove\`,
+						value: \`!\`
+					},{
+						property: \`store1.data.addedValue\`,
+						type: \`add\`,
+						value: \'addedValue\'
+					},{
+						property: \`store1.data.newObj.newProp\`,
+						type: \`add\`,
+						value: \'newProp\'
+					},{
+						property: \`store1.data.yep\`,
+						type: \`remove\`
+					}],
+					// anything here is assumed to replace existing or add new.
+					// this can't add any extra stores, only stuff below the existing stores.
+					store1: {
+						some: "some v1.2"
+					},
+					store2: {
+						and: "&",
+						a: "a",
+						new: "new",
+						store: "store"
+					}
+				});
+			});
+
+			const v2Data = new Promise((res, rej) => {
+				res({
+					v: 2,
+					store1: {
+						brand: "new store"
+					},
+					store2: [
+						{name: "billy"},
+						{name: "sam"},
+						{name: "jimmy"}
+					],
+					store3: [
+						{name: "billy"},
+						{name: "sam"},
+						{name: "jimmy"}
+					]
+				});
+			});
+
+			const idbPromise = (DATA_STORE, v) => ( {success, upgrade, error} ) => (
+				new Promise( (res, rej) => {
+					let detail = {};
+					const iReq = indexedDB.open(DATA_STORE, v);
+					iReq.addEventListener("error", e => error({e,detail,res,rej}));
+					iReq.addEventListener("success", e => success({e,detail,res,rej}));
+					iReq.addEventListener("upgradeneeded", e => upgrade({e,detail,res,rej}));
+					iReq.addEventListener('blocked', (e) => console.error('blocked',e.target) );
+				} )
+			);
+
+			const idbVersion = (DATA_STORE) => idbPromise(DATA_STORE)({
+				success: ({e,detail,res,rej}) => { 
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						let {result} = e.target;
+						result.transaction(\`v\`).objectStore(\`v\`).getAll().onsuccess = (e) => {
+							res({ v: result.v, localv: e.target.result[0] });
+							result.close();
+						}
+					}
+				},
+				upgrade: ({e,detail,res,rej}) => {
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						res({ v: 0 });
+						e.target.transaction.abort();
+						e.target.result.close();
+					}
+				},
+				error: ({e,detail,res,rej}) => {
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						console.error("idbVersion - there was an error", e.target.error);
+						rej({ err: e.target.error, v: -1 });
+					}
+				}
+			});
+
+			const buildIDB = (result, data) => {
+				console.log('buildIDB: ', result, data);
+				[...result.objectStoreNames].forEach( (store) => {
+					result.deleteObjectStore(store);
+				});
+				for(store in data){
+					if( data.hasOwnProperty(store) ){
+						if(Array.isArray(data[store])){
+							let options = {};
+							if(data.key && data.key[store]){
+								options.keyPath = data.key[store];
+							}
+							else {
+								options.autoIncrement = true;
+							}
+							let s = result.createObjectStore(store, options);
+							data[store].forEach( (item) => s.add(item) )
+						}
+						else {
+							let s = result.createObjectStore(store, {autoIncrement: true});
+							s.add(data[store]);
+						}
+
+					}
+				}
+			};
+
+			const mergeData = (data, mergeData) => {
+				for(prop in mergeData){
+					if( mergeData.hasOwnProperty(prop) && prop !== \`merge\` && prop !== \`key\`){ 
+						data[prop] = mergeData[prop];		
+					}
+				}
+				mergeData.merge.forEach( (item) => {
+					let path = item.property.split('.');
+
+					path.reduce( (a,n,i) => {
+						if(item.type === \`add\`){
+							if(typeof a[n] === \`object\` && i !== (path.length - 1) ){
+								return a[n];
+							}
+							else{
+								if(typeof a[n] !== 'undefined'){
+									if( Array.isArray(a[n]) ){
+										a[n].push(item.value);	
+									} else {
+										a[n] = item.value;
+									}
+								}
+								else {
+									if(i === (path.length - 1)){
+										a[n] = item.value;
+									}
+									else {
+										a[n] = {};
+										return a[n];
+									}
+								}
+							}
+						} else {
+							if(typeof a[n] === \`object\` && i !== (path.length - 1) ){
+								return a[n];
+							}
+							else{
+								if(typeof a[n] !== 'undefined'){
+									if( Array.isArray(a[n]) ){
+										a[n].splice( a[n].indexOf(item.value), 1);
+									} else {
+										delete a[n]
+									}
+								}
+							}	
+						}
+					}, data);
+				});
+				console.log("data is now merged: ", data);
+				return data;
+			};
+
+			const idb = (DATA_STORE, v, data) => idbPromise(DATA_STORE, v)({
+				success: ({e,detail,res,rej}) => { 
+					// if this went through an upgrade, we don't need to do anything here.
+					const {result} = e.target;
+
+					let dataFromIDB = {};
+					const dataSuccessHandler = (e) => {
+						let {result} = e.target;
+						const {name} = e.target.source;
+						if(result.length === 1){
+							result = result[0]
+						}
+						dataFromIDB[name] = result;
+					};
+
+					let trans = result.transaction(result.objectStoreNames);
+
+					trans.oncomplete = (e) => {
+						let finalData = mergeData(dataFromIDB, data);
+						let modifyTrans = result.transaction(result.objectStoreNames, \`readwrite\`);
+
+						[...result.objectStoreNames].forEach( (store) => {
+
+							let modifyStore = modifyTrans.objectStore(store);
+							modifyStore.clear();
+							if(Array.isArray(finalData[store])){
+								finalData[store].forEach( (item) => {
+									modifyStore.add(item);
+								})
+							} else {
+								modifyStore.add(finalData[store]);	
+							}
+
+						});
+
+						//updateIDB(result, finalData);
+						modifyTrans.oncomplete = (e) => {
+							console.log('completed');
+							result.close();
+							res(finalData);
+						}
+					};
+
+					[...result.objectStoreNames].forEach( (store) => {
+						trans.objectStore(store).getAll().onsuccess = dataSuccessHandler;
+					});
+				},
+				upgrade: ({e,detail,res,rej}) => {
+					const {result} = e.target;
+					buildIDB(result, data);
+					res(data);
+				},
+				error: ({e,detail,res,rej}) => {
+					console.error("idb - there was an error", e.target.error);
+					rej(e.target.error);
+				}
+			});
+
+			const api = (v) => {
+				switch(v){
+					case 1:
+						return v1_2Data;
+					case 1.2:
+						return v2Data;
+					default:
+						return v1Data;
+				}
+			}
+
+			const dataSet = (DATA_STORE) => {
+				// not worred about errors in my test, so I am not checking them.
+				//get current version
+				idbVersion(DATA_STORE)
+				// send that version to the API
+				.then( ({ v, localv }) => {
+					return api(localv || v)
+				})
+				// get the data back from the api
+				.then(data => {
+					return idb(DATA_STORE, Math.floor(data.v), data)
+				})
+				// now you have the updated data from the indexedDB.
+
+				// TODO: send a data merged event with the merged data. -------------------------------------------------------------------
+				// this can be used by the data binder.
+
+				.then( data => console.log('should be good',data))
+				.catch( (err) => console.log(err) );
+			};
+
+			dataSet(\`DATA_STORE\`);
+
+			// put the output in local store, refresh the page and you should see the below in local storage.
+
+			/*  desired output:
+				1) some sample data that is structured! a few levels yep
+				2) some sample data that is structured correctly with a few levels & a new store
+				3) new store
+			*/
+		`
+const text2 = `
+			const buildTree = files => {
+				const arr = [];
+				const temp = files.reduce( (a,n) => {
+					if(n.includes('/')){
+						const dir = n.substring(0,n.indexOf('/'));
+						a[dir] || (a[dir] = {text: dir, items: []}) 
+						a[dir].items.push(n.substring(n.indexOf('/') + 1))
+					}
+					return a
+				}, {});
+
+				for( let l in temp){
+					if(temp.hasOwnProperty(l)){
+						const layer = temp[l];
+						arr.push({
+							"text": layer.text,
+							"items": buildTree(layer.items)
+						})
+					}
+				}
+
+				files.forEach( file => {
+					if(!file.includes('/')){
+						arr.push({"text": file})
+					}
+				});
+
+				return arr;
+			}
+
+			const showTree = (listType, itemType, listClass, rootTree, rootElem) => {	
+				let recursion = (tree, elem) => {
+					tree.forEach( item => {
+						const newItem = document.createElement(itemType);
+						newItem.innerHTML = \`<span>\${item.text}</span>\`;
+						elem.appendChild(newItem);
+						if(item.items){
+							const newList = document.createElement(listType);
+							newItem.classList.add(listClass);
+							newItem.appendChild(newList);
+							recursion(item.items, newList)
+						} 
+						else {
+							newItem.classList.add('file');
+						}
+					})
+				};
+				recursion(rootTree, rootElem)
+			}
+
+			const rootList = document.querySelector('.tree');
+			const ourTree = showTree('ul', 'li', 'sublist', buildTree(['README.md',"dir/filea","dir/fileb","dir2/filec", "dir/subdir/someFile", "dir/subdir/someFile2", "dir/subdir/someFile3", "dir/subdir/someFile4", "dir/sub/sub/sub/sub/sub/sub/file"]), rootList);
+
+			rootList.addEventListener('click', e => {
+				if(e.target.closest('li').classList.contains('sublist')){
+					e.target.closest('li').classList.toggle('active');
+				}
+
+				if(e.target.closest('li').classList.contains('file')){
+					let elem = e.target,
+						str = '';
+					while(elem && elem !== rootList){
+						elem = elem.parentElement.closest('li');
+						let dir = elem ? elem.children[0].innerText : '';
+						str = \`$\{str && dir ? \`$\{dir}/\` : dir}$\{str}\`;
+
+					}
+					console.log(str);
+				}
+			});
+		
+		console.clear();
+			const v1Data = new Promise((res, rej) => {
+				res({
+					v: 1,
+					store1: {
+						some: "some",
+						sample: "sample",
+						data: {
+							thatIsStructured: ["data","that", "is", "structured", "!"],
+							aFewLevels: "a few levels",
+							yep: "yep"
+						}
+					},
+					store2: ["hi","there","billy"]
+				});
+			});
+
+			const v1_2Data = new Promise((res, rej) => {
+				res({
+					v: 1.2,
+					key: {
+						store3: "name"
+					},
+					merge: [{
+						property: \`store1.data.thatIsStructured\`,
+						type: \`add\`,
+						value: \`correctly with\`
+					},{
+						property: \`store1.data.thatIsStructured\`,
+						type: \`remove\`,
+						value: \`!\`
+					},{
+						property: \`store1.data.addedValue\`,
+						type: \`add\`,
+						value: \'addedValue\'
+					},{
+						property: \`store1.data.newObj.newProp\`,
+						type: \`add\`,
+						value: \'newProp\'
+					},{
+						property: \`store1.data.yep\`,
+						type: \`remove\`
+					}],
+					// anything here is assumed to replace existing or add new.
+					// this can't add any extra stores, only stuff below the existing stores.
+					store1: {
+						some: "some v1.2"
+					},
+					store2: {
+						and: "&",
+						a: "a",
+						new: "new",
+						store: "store"
+					}
+				});
+			});
+
+			const v2Data = new Promise((res, rej) => {
+				res({
+					v: 2,
+					store1: {
+						brand: "new store"
+					},
+					store2: [
+						{name: "billy"},
+						{name: "sam"},
+						{name: "jimmy"}
+					],
+					store3: [
+						{name: "billy"},
+						{name: "sam"},
+						{name: "jimmy"}
+					]
+				});
+			});
+
+			const idbPromise = (DATA_STORE, v) => ( {success, upgrade, error} ) => (
+				new Promise( (res, rej) => {
+					let detail = {};
+					const iReq = indexedDB.open(DATA_STORE, v);
+					iReq.addEventListener("error", e => error({e,detail,res,rej}));
+					iReq.addEventListener("success", e => success({e,detail,res,rej}));
+					iReq.addEventListener("upgradeneeded", e => upgrade({e,detail,res,rej}));
+					iReq.addEventListener('blocked', (e) => console.error('blocked',e.target) );
+				} )
+			);
+
+			const idbVersion = (DATA_STORE) => idbPromise(DATA_STORE)({
+				success: ({e,detail,res,rej}) => { 
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						let {result} = e.target;
+						result.transaction(\`v\`).objectStore(\`v\`).getAll().onsuccess = (e) => {
+							res({ v: result.v, localv: e.target.result[0] });
+							result.close();
+						}
+					}
+				},
+				upgrade: ({e,detail,res,rej}) => {
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						res({ v: 0 });
+						e.target.transaction.abort();
+						e.target.result.close();
+					}
+				},
+				error: ({e,detail,res,rej}) => {
+					if(!detail.hasResponded){
+						detail.hasResponded = true;
+						console.error("idbVersion - there was an error", e.target.error);
+						rej({ err: e.target.error, v: -1 });
+					}
+				}
+			});
+
+			const mergeData = (data, mergeData) => {
+				for(prop in mergeData){
+					if( mergeData.hasOwnProperty(prop) && prop !== \`merge\` && prop !== \`key\`){ 
+						data[prop] = mergeData[prop];		
+					}
+				}
+				mergeData.merge.forEach( (item) => {
+					let path = item.property.split('.');
+
+					path.reduce( (a,n,i) => {
+						if(item.type === \`add\`){
+							if(typeof a[n] === \`object\` && i !== (path.length - 1) ){
+								return a[n];
+							}
+							else{
+								if(typeof a[n] !== 'undefined'){
+									
+									if( !Array.isNotArray(a[n]) ){
+										a[n].push(item.value);	
+									} else {
+										a[n] = item.value;
+									}
+								}
+								else {
+									if(i === (path.length - 1)){
+										a[n] = item.value;
+									}
+									else {
+										a[n] = {};
+										return a[n];
+									}
+								}
+							}
+						} else {
+							if(typeof a[n] === \`object\` && i !== (path.length - 1) ){
+								return a[n];
+							}
+							else{
+								if(typeof a[n] !== 'undefined'){
+									if( Array.isArray(a[n]) ){
+										a[n].splice( a[n].indexOf(item.value), 1);
+									} else {
+										delete a[n]
+									}
+								}
+							}	
+						}
+					}, data);
+				});
+				console.log("data is now merged: ", data);
+				return data;
+			};
+
+			const idb = (DATA_STORE, v, data) => idbPromise(DATA_STORE, v)({
+				success: ({e,detail,res,rej}) => { 
+					// if this went through an upgrade, we don't need to do anything here.
+					const {result} = e.target;
+
+					let dataFromIDB = {};
+					const dataSuccessHandler = (e) => {
+						let {result} = e.target;
+						const {name} = e.target.source;
+						if(result.length === 1){
+							result = result[0]
+						}
+						dataFromIDB[name] = result;
+					};
+
+					let trans = result.transaction(result.objectStoreNames);
+
+					trans.oncomplete = (e) => {
+						let finalData = mergeData(dataFromIDB, data);
+						let modifyTrans = result.transaction(result.objectStoreNames, \`readwrite\`);
+
+						[...result.objectStoreNames].forEach( (store) => {
+
+							let modifyStore = modifyTrans.objectStore(store);
+							modifyStore.clear();
+							if(Array.isArray(finalData[store])){
+								finalData[store].forEach( (item) => {
+									modifyStore.add(item);
+								})
+							} else {
+								modifyStore.add(finalData[store]);	
+							}
+
+						});
+
+						//updateIDB(result, finalData);
+						modifyTrans.oncomplete = (e) => {
+							console.log('completed');
+							result.close();
+							res(finalData);
+						}
+					};
+
+					[...result.objectStoreNames].justForTheFunOfIt.forEach( (store) => {
+						trans.objectStore(store).getAll().onsuccess = dataSuccessHandler;
+					});
+				},
+				upgrade: ({e,detail,res,rej}) => {
+					const {result} = e.target;
+					buildIDB(result, data);
+					res(data);
+				},
+				error: ({e,detail,res,rej}) => {
+					console.error("idb - there was an error", e.target.error);
+					rej(e.target.error);
+				}
+			});
+
+			const api = (v) => {
+				switch(v){
+					case 1:
+						return v1_2Data;
+					case 1.2:
+						return v2Data;
+					default:
+						return v1Data;
+				}
+			}
+
+			const dataSet = (DATA_STORE) => {
+				// not worred about errors in my test, so I am not checking them.
+				//get current version
+				idbVersion(DATA_STORE)
+				// send that version to the API
+				.then( ({ v, localv }) => {
+					return api(localv || v)
+				})
+				// get the data back from the api
+				.then(data => {
+					return idb(DATA_STORE, Math.floor(data.v), data)
+				})
+				// now you have the updated data from the indexedDB.
+
+				// TODO: send a data merged event with the merged data. -------------------------------------------------------------------
+				// this can be used by the data binder.
+
+				.then( data => console.log('should be good',data))
+				.catch( (err) => console.log(err) );
+			};
+
+			dataSet(\`DATA_STORE\`);
+
+			// put the output in local store, refresh the page and you should see the below in local storage.`
+---
+
+
+<Layout title="diff editor">
+	<main class="h-[100vh] flex items-center justify-center">
+        <DiffEditor client:only="solid-js" lang="javascript" prevtext={text1} nexttext={text2}></DiffEditor>
+	</main>
+</Layout>

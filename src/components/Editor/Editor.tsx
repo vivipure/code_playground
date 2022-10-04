@@ -1,5 +1,5 @@
-import createEditor, { monaco } from "../libs/monaco";
-import type { editor } from "../libs/monaco";
+import { createEditor, monaco } from "../../libs/monaco";
+import type { editor } from "../../libs/monaco";
 import { createEffect, onMount } from "solid-js";
 
 interface PropsInterface {

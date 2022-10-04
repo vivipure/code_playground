@@ -33,9 +33,10 @@ interface OptionsInterface {
 
 export const monaco = _monaco;
 
+import type { editor } from "monaco-editor";
 export type { editor } from "monaco-editor";
 
-export default function createEditor(
+export function createEditor(
   editorContainer: HTMLElement,
   options: Partial<OptionsInterface> = {}
 ) {
@@ -50,3 +51,20 @@ export default function createEditor(
 
   return instance;
 }
+
+export function createDiffEditor(editorContainer: HTMLElement): DiffEdiotr {
+  const editor = monaco.editor.createDiffEditor(editorContainer);
+  return Object.assign(editor, {
+    setDiff(prev: string, current: string, lang: string) {
+      console.log('我出发了')
+      editor.setModel({
+        original: monaco.editor.createModel(prev, lang),
+        modified: monaco.editor.createModel(current, lang),
+      });
+    },
+  });
+}
+
+export type DiffEdiotr = editor.IDiffEditor & {
+  setDiff(prev: string, current: string, lang: string): void;
+};
