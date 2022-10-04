@@ -4,51 +4,50 @@ import { createEffect, onMount } from "solid-js";
 
 interface PropsInterface {
   onChange?: (value: string, event: editor.IModelContentChangedEvent) => any;
-  onMounted?: (editorMethods: EditorMethods) => any;
-  defaultLanguage: string;
-  defaultValue: string;
-}
-
-export interface EditorMethods {
-  updateOption(value: string, language: string): void;
+  language: string;
+  value: string;
 }
 
 export default function Editor(props: Partial<PropsInterface>) {
-  const {
-    onChange,
-    defaultLanguage = "typescript",
-    defaultValue = "",
-    onMounted,
-  } = props;
+  let { language = "typescript", value = "" } = props;
 
   let editorContainer: HTMLDivElement | undefined;
   let editorInstance: editor.IStandaloneCodeEditor | undefined;
+  let isUpdateFromParent = false;
+
+  createEffect(() => {
+    if (props.language !== language || props.value !== value) {
+      isUpdateFromParent = true;
+      updateOption(props.value || "", props.language!);
+    }
+    language = props.language!;
+    value = props.value!;
+  });
+  function updateOption(value: string, language: string) {
+    const model = editorInstance?.getModel();
+    monaco.editor.setModelLanguage(model!, language);
+    editorInstance?.setValue(value);
+  }
 
   //   初始化编辑器
   onMount(() => {
     editorInstance = createEditor(editorContainer!, {
-      language: defaultLanguage,
-      value: defaultValue,
+      language: language,
+      value: value,
     });
     window.onresize = () => {
       editorInstance!.layout();
     };
 
-    if (onChange) {
+    if (props.onChange) {
       editorInstance.onDidChangeModelContent((e) => {
+        if (isUpdateFromParent) {
+          isUpdateFromParent = false;
+          return;
+        }
         const value = editorInstance!.getValue();
-        onChange(value, e);
+        props.onChange!(value, e);
       });
-    }
-    if (onMounted) {
-      const editorMethods: EditorMethods = {
-        updateOption(value: string, language: string) {
-          const model = editorInstance?.getModel();
-          monaco.editor.setModelLanguage(model!, language);
-          editorInstance?.setValue(value);
-        },
-      };
-      onMounted(editorMethods);
     }
   });
   return <div class="h-full w-full" ref={editorContainer}></div>;

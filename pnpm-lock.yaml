@@ -4,7 +4,8 @@ specifiers:
   '@astrojs/solid-js': ^1.1.0
   '@astrojs/tailwind': ^2.0.1
   astro: ^1.4.2
-  monaco-editor: ^0.34.0
+  emmet-monaco-es: ^5.1.2
+  monaco-editor: ^0.31.0
   solid-js: ^1.5.7
   tailwindcss: ^3.0.24
 
@@ -12,7 +13,8 @@ dependencies:
   '@astrojs/solid-js': 1.1.0_solid-js@1.5.7
   '@astrojs/tailwind': registry.npmmirror.com/@astrojs/tailwind/2.0.1_tailwindcss@3.1.8
   astro: registry.npmmirror.com/astro/1.4.2
-  monaco-editor: 0.34.0
+  emmet-monaco-es: 5.1.2_monaco-editor@0.31.1
+  monaco-editor: 0.31.1
   solid-js: 1.5.7
   tailwindcss: registry.npmmirror.com/tailwindcss/3.1.8
 
@@ -70,6 +72,22 @@ packages:
       to-fast-properties: 2.0.0
     dev: false
 
+  /@emmetio/abbreviation/2.2.3:
+    resolution: {integrity: sha512-87pltuCPt99aL+y9xS6GPZ+Wmmyhll2WXH73gG/xpGcQ84DRnptBsI2r0BeIQ0EB/SQTOe2ANPqFqj3Rj5FOGA==}
+    dependencies:
+      '@emmetio/scanner': 1.0.0
+    dev: false
+
+  /@emmetio/css-abbreviation/2.1.4:
+    resolution: {integrity: sha512-qk9L60Y+uRtM5CPbB0y+QNl/1XKE09mSO+AhhSauIfr2YOx/ta3NJw2d8RtCFxgzHeRqFRr8jgyzThbu+MZ4Uw==}
+    dependencies:
+      '@emmetio/scanner': 1.0.0
+    dev: false
+
+  /@emmetio/scanner/1.0.0:
+    resolution: {integrity: sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==}
+    dev: false
+
   /@esbuild/android-arm/0.15.10:
     resolution: {integrity: sha512-FNONeQPy/ox+5NBkcSbYJxoXj9GWu8gVGJTVmUyoOCKQFDTrHVKgNSzChdNt0I8Aj/iKcsDf2r9BFwv+FSNUXg==}
     engines: {node: '>=12'}
@@ -118,6 +136,22 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: false
+
+  /emmet-monaco-es/5.1.2_monaco-editor@0.31.1:
+    resolution: {integrity: sha512-P+GwbRfzCAN9socNCLj7hdlmjV1J535wYZX9uoXERRGbbfkzcmfz4i43ClDecqCVt6IsbP0RK8AgX370ClMcJA==}
+    peerDependencies:
+      monaco-editor: '>=0.22.0'
+    dependencies:
+      emmet: 2.3.6
+      monaco-editor: 0.31.1
+    dev: false
+
+  /emmet/2.3.6:
+    resolution: {integrity: sha512-pLS4PBPDdxuUAmw7Me7+TcHbykTsBKN/S9XJbUOMFQrNv9MoshzyMFK/R57JBm94/6HSL4vHnDeEmxlC82NQ4A==}
+    dependencies:
+      '@emmetio/abbreviation': 2.2.3
+      '@emmetio/css-abbreviation': 2.1.4
     dev: false
 
   /esbuild-android-64/0.14.54:
@@ -492,8 +526,8 @@ packages:
     resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
     dev: false
 
-  /monaco-editor/0.34.0:
-    resolution: {integrity: sha512-VF+S5zG8wxfinLKLrWcl4WUizMx+LeJrG4PM/M78OhcwocpV0jiyhX/pG6Q9jIOhrb/ckYi6nHnaR5OojlOZCQ==}
+  /monaco-editor/0.31.1:
+    resolution: {integrity: sha512-FYPwxGZAeP6mRRyrr5XTGHD9gRXVjy7GUzF4IPChnyt3fS5WrNxIkS8DNujWf6EQy0Zlzpxw8oTVE+mWI2/D1Q==}
     dev: false
 
   /solid-js/1.5.7:

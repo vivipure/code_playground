@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PlayGround from '../components/PlayGround'
+---
+
+<Layout title="code playground">
+	<main>
+		<PlayGround client:only="solid-js" />
+	</main>
+</Layout>
+
+<style>
+</style>
