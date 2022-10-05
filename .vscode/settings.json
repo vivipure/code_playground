@@ -1,0 +1,8 @@
+{
+  "[typescript]": {
+    "editor.suggest.showClasses": false
+  },
+  "[typescriptreact]": {
+    "editor.suggest.showClasses": false,
+  },
+}

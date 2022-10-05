@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .text-input {
+        @apply border-2 border-solid border-black
+    }
+}
