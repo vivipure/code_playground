@@ -8,8 +8,9 @@ import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import { emmetCSS, emmetHTML } from "emmet-monaco-es";
 
 // https://github.com/vitejs/vite/discussions/1791#discussioncomment-321046
+// @ts-ignore
 self.MonacoEnvironment = {
-  getWorker(_, label) {
+  getWorker(_: any, label: string) {
     if (label === "json") {
       return new jsonWorker();
     }
@@ -45,6 +46,7 @@ export function createEditor(
   const instance = _monaco.editor.create(editorContainer, {
     value,
     language,
+    scrollBeyondLastLine: false,
   });
   emmetHTML(_monaco);
   emmetCSS(_monaco);
@@ -56,7 +58,6 @@ export function createDiffEditor(editorContainer: HTMLElement): DiffEdiotr {
   const editor = monaco.editor.createDiffEditor(editorContainer);
   return Object.assign(editor, {
     setDiff(prev: string, current: string, lang: string) {
-      console.log('我出发了')
       editor.setModel({
         original: monaco.editor.createModel(prev, lang),
         modified: monaco.editor.createModel(current, lang),
