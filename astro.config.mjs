@@ -8,7 +8,9 @@ import solid from '@astrojs/solid-js'
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), solid()],
-  site: 'https://vivipure.github.io/code_playground/',
+  base: '/code_playground',
   vite: {
+  base: '/code_playground',
+
   }
 });
