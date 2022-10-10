@@ -1,6 +1,8 @@
 name: GitHub Actions Build and Deploy 
 on:
-  push
+  push: 
+    branches: 
+      - main
 
 jobs:
   build-and-deploy:
@@ -8,11 +10,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      
-    - name: Set Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
+      width: 
+        path: main
         
     - name: Install And Build
       run: |
