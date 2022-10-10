@@ -1,0 +1,19 @@
+name: GitHub Actions Build and Deploy 
+on:
+  push
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Install And Build
+      run: |
+        npm install
+        npm run build
+    - name: deploy
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
