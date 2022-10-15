@@ -1,17 +1,48 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+
+const list = [
+  {
+    label: "在线编辑器",
+    value: "playground",
+  },
+  {
+    label: "diff editor",
+    value: "diff",
+  },
+  {
+    label: "代码片段",
+    value: "playground",
+  },
+  {
+    label: "首页",
+    value: "home",
+  },
+  {
+    label: "步骤表单",
+    value: "stepform",
+  },
+  {
+    label: "Markdown",
+    value: "markdown",
+  },
+];
 ---
 
 <Layout title="code playground">
-	<div class="flex h-[100vh] items-center justify-center" >
-		<main class="grid grid-cols-4 gap-y-1">
-			<a class="cursor-pointer text-blue-500 mx-4" href="./playground">在线编辑器</a>
-			<a class="cursor-pointer text-blue-500 mx-4" href="./diff">diff editor</a>
-			<a class="cursor-pointer text-blue-500 mx-4" href="./playground">代码片段</a>
-			<a class="cursor-pointer text-blue-500 mx-4" href="./home">首页</a>
-			<a class="cursor-pointer text-blue-500 mx-4" href="./stepform">步骤表单</a>
-			<a class="cursor-pointer text-blue-500 mx-4" href="./markdown">Markdown</a>
-		</main>
-	</div>
-	
+  <main class="grid grid-cols-10">
+    {
+      list.map((item) => {
+        return (
+          <a
+            class="cursor-pointer hover:bg-slate-400 hover:text-white  flex justify-center items-center py-8 text-blue-500  border-black border-solid border-2 ml-[-2px] mt-[-2px]"
+            href={`./${item.value}`}
+          >
+            {item.label}
+          </a>
+        );
+      })
+	  
+    }
+  </main>
 </Layout>
