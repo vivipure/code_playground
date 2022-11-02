@@ -56,8 +56,6 @@ export function Keyboard(props: IProps) {
           </button>
         );
       })}
-
-      <button>B</button>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { createEffect } from "solid-js";
 interface IProps {
   guessWord: string[];
   word: string;
+  showWord: boolean
 }
 
 export function HangWord(props: IProps) {
@@ -12,10 +13,13 @@ export function HangWord(props: IProps) {
         <div class="w-[1em] border-b-8 border-solid border-black">
           <span
             style={{
-              visibility: props.guessWord.includes(letter)
+              visibility: (props.showWord ||  props.guessWord.includes(letter))
                 ? "visible"
                 : "hidden",
             }}
+            class={
+              `${props.guessWord.includes(letter) ? '':'text-red-500'}`
+            }
           >
             {letter}
           </span>

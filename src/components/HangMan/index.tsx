@@ -18,7 +18,7 @@ const GAME_STATUS = {
 const MAX_ERROR_COUNT = 6; // 头，身，四肢
 
 export default function HangMan() {
-  const [gameState, setGameState] = createSignal(GAME_STATUS.RUNNING);
+  const [gameStatus, setGameStatus] = createSignal(GAME_STATUS.RUNNING);
   const [word, setWord] = createSignal(getWord());
   const [guessWord, setGuessword] = createSignal<string[]>([]);
 
@@ -34,58 +34,60 @@ export default function HangMan() {
   const addGuessLetter = (letter: string) => {
     const validLetter = letter.toLowerCase();
 
-    if (gameState() !== GAME_STATUS.RUNNING) return;
+    if (gameStatus() !== GAME_STATUS.RUNNING) return;
     if (guessWord().includes(validLetter)) return;
 
     setGuessword([...guessWord(), validLetter]);
 
     if (wrongCount() === MAX_ERROR_COUNT) {
-      setGameState(GAME_STATUS.FAILED);
-      setTimeout(() => {
-        resetGame();
-      }, 5000);
+      setGameStatus(GAME_STATUS.FAILED);
+
       return;
     }
-    if (rightGuessLetter().length === wordLetters.size) {
-      setGameState(GAME_STATUS.SUCCESS);
-      setTimeout(() => {
-        resetGame();
-      }, 5000);
+    if (currentGuessLetter().length === wordLetters.size) {
+      setGameStatus(GAME_STATUS.SUCCESS);
     }
   };
 
-  const wrongGuessLetter = () =>
+  const incorrectGuessLetters = () =>
     guessWord().filter((letter) => !word().includes(letter));
-  const rightGuessLetter = () =>
+  const currentGuessLetter = () =>
     guessWord().filter((letter) => word().includes(letter));
 
-  const wrongCount = () => wrongGuessLetter().length;
+  const wrongCount = () => incorrectGuessLetters().length;
 
-  function isFailed() {
-    return gameState() === GAME_STATUS.FAILED;
-  }
-  function isSuccess() {
-    return gameState() === GAME_STATUS.SUCCESS;
+  function isRuning() {
+    return gameStatus() === GAME_STATUS.RUNNING;
   }
   function resetGame() {
     setWord(getWord());
     setGuessword([]);
-    setGameState(GAME_STATUS.RUNNING);
+    setGameStatus(GAME_STATUS.RUNNING);
   }
 
   return (
     <div class="flex flex-col items-center">
-      {isFailed() && <p>游戏失败!</p>}
-      {isSuccess() && <p>游戏成功!</p>}
+      {!isRuning() && (
+        <button
+          class="border-2 border-solid border-black p-2 hover:bg-black hover:text-white"
+          onClick={resetGame}
+        >
+          重新开始
+        </button>
+      )}
       <p class="my-4">猜词游戏</p>
       <HandDrawing wrongCount={wrongCount()} />
       <div class="my-4">
-        <HangWord guessWord={guessWord()} word={word()} />
+        <HangWord
+          guessWord={guessWord()}
+          showWord={!isRuning()}
+          word={word()}
+        />
       </div>
       <div class="self-stretch mt-8">
         <Keyboard
-          activeLetters={rightGuessLetter()}
-          inactveLetters={wrongGuessLetter()}
+          activeLetters={currentGuessLetter()}
+          inactveLetters={incorrectGuessLetters()}
           onPress={addGuessLetter}
         />
       </div>
