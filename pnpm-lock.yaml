@@ -5,6 +5,7 @@ specifiers:
   '@astrojs/tailwind': ^2.0.1
   '@types/marked': ^4.0.7
   astro: ^1.4.2
+  awesome-solid-hooks: ^0.0.3
   emmet-monaco-es: ^5.1.2
   highlight.js: ^11.6.0
   marked: ^4.1.1
@@ -16,6 +17,7 @@ dependencies:
   '@astrojs/solid-js': 1.1.0_solid-js@1.5.7
   '@astrojs/tailwind': registry.npmmirror.com/@astrojs/tailwind/2.0.1_tailwindcss@3.1.8
   astro: registry.npmmirror.com/astro/1.4.2
+  awesome-solid-hooks: 0.0.3_solid-js@1.5.7
   emmet-monaco-es: 5.1.2_monaco-editor@0.31.1
   highlight.js: 11.6.0
   marked: 4.1.1
@@ -126,6 +128,15 @@ packages:
   /@types/marked/4.0.7:
     resolution: {integrity: sha512-eEAhnz21CwvKVW+YvRvcTuFKNU9CV1qH+opcgVK3pIMI6YZzDm6gc8o2vHjldFk6MGKt5pueSB7IOpvpx5Qekw==}
     dev: true
+
+  /awesome-solid-hooks/0.0.3_solid-js@1.5.7:
+    resolution: {integrity: sha512-o04sbf46vrRpiUmAaJaDd2fJItix/unpIp0E+cnuuJtieLQamqC8fkLToqHKfHp+jfbK6CPXVzw2RFxSrQw1UQ==}
+    peerDependencies:
+      solid-js: ^1.5.7
+    dependencies:
+      js-cookie: 3.0.1
+      solid-js: 1.5.7
+    dev: false
 
   /babel-plugin-jsx-dom-expressions/0.34.11:
     resolution: {integrity: sha512-pXygym8znJC/WiozMVA5R/8keu5j6kTZEVJjJi2tjnQrUHsm9JMbXQw8QjLZSW0oxU601rsutb1TlECdBAvfJQ==}
@@ -541,6 +552,11 @@ packages:
 
   /html-entities/2.3.2:
     resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
+    dev: false
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
     dev: false
 
   /marked/4.1.1:

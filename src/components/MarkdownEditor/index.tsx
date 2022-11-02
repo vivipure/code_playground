@@ -21,7 +21,7 @@ export default function MarkdownEditor() {
     })
   }
   onMount(() => {
-    valueChangeHandle(value)
+    valueChangeHandle(value())
   })
 
 
