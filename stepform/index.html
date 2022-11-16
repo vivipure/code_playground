@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="zh">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width">
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-		<meta name="generator" content="Astro v1.4.2">
-		<title>step form</title>
-	<link rel="stylesheet" href="/code_playground/assets/diff-docs-test-hangman-home-index-markdown-playground-stepform.c967145e.css" />
-<link rel="stylesheet" href="/code_playground/assets/diff-hangman-home-index-markdown-playground-stepform.1de0e882.css" />
-<link rel="stylesheet" href="/code_playground/assets/stepform.1b61ebf8.css" /></head>
-	<body>
-		<style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="2ix3GP" data-solid-render-id="s0" component-url="/code_playground/index.70fe5590.js" component-export="default" renderer-url="/code_playground/client.f2a68a64.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:&quot;StepForm&quot;,&quot;value&quot;:true}" await-children=""><div data-hk="s00-3" class="h-[100vh] flex items-center justify-center"><div class="relative bg-white border-solid border-[1px] border-black  w-[600px] mx-auto p-4"><form><div class="absolute top-2 right-5"><!--#-->1<!--/-->/ <!--#-->3<!--/--></div><!--#--><h2 data-hk="s00-0-0-6" class=" text-center mb-8">User Details</h2><div data-hk="s00-0-0-7" class=" grid gap-x-2 gap-y-4 justify-start grid-cols-form-item"><label data-hk="s00-0-0-0">First Name</label><input data-hk="s00-0-0-1" class="text-input" value="" type="text" required autofocus><label data-hk="s00-0-0-2">Last Name</label><input data-hk="s00-0-0-3" class="text-input" value="" type="text" required><label data-hk="s00-0-0-4">Age</label><input data-hk="s00-0-0-5" class="text-input" value="" type="number" required min="1"></div><!--/--><div class=" mt-4 flex gap-2 justify-end"><!--#--><!--/--><button type="button">Next</button></div></form></div></div></astro-island>
-	
-</body></html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v1.4.2">
+    <title>step form</title>
+  <link rel="stylesheet" href="/code_playground/assets/diff-docs-test-hangman-index-markdown-playground-stepform.9acca495.css" />
+<link rel="stylesheet" href="/code_playground/assets/diff-hangman-index-markdown-playground-stepform.232a56f8.css" />
+<link rel="stylesheet" href="/code_playground/assets/stepform.780ff321.css" /></head>
+  <body class="w-full h-[100vh]">
+    <header aria-label="Page Header">
+  <div class="mx-auto max-w-screen-xl px-2 py-2 sm:py-2 sm:px-2 lg:px-2">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="text-center sm:text-left">
+        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">代码训练基地</h1>
+        <p class="mt-1.5 text-sm text-gray-500">一些简单的小例子！</p>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+        <a target="_blank" href="https://github.com/vivipure" class="inline-flex items-center justify-center rounded-lg border border-gray-200 px-5 py-3 text-gray-500 transition hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring" type="button">
+          <span class="text-sm font-medium"> github</span>
+
+          <svg xmlns="http://www.w3.org/2000/svg" class="ml-1.5 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          </svg>
+        </a>
+        <a href="/" class="block text-center rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring" type="button">
+              回到首页
+            </a>
+      </div>
+    </div>
+  </div>
+</header>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).load=a=>{(async()=>await(await a())())()},window.dispatchEvent(new Event("astro:load"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><astro-island uid="2ix3GP" data-solid-render-id="s0" component-url="/code_playground/index.70fe5590.js" component-export="default" renderer-url="/code_playground/client.f2a68a64.js" props="{}" ssr="" client="load" opts="{&quot;name&quot;:&quot;StepForm&quot;,&quot;value&quot;:true}" await-children=""><div data-hk="s00-3" class="h-[100vh] flex items-center justify-center"><div class="relative bg-white border-solid border-[1px] border-black  w-[600px] mx-auto p-4"><form><div class="absolute top-2 right-5"><!--#-->1<!--/-->/ <!--#-->3<!--/--></div><!--#--><h2 data-hk="s00-0-0-6" class=" text-center mb-8">User Details</h2><div data-hk="s00-0-0-7" class=" grid gap-x-2 gap-y-4 justify-start grid-cols-form-item"><label data-hk="s00-0-0-0">First Name</label><input data-hk="s00-0-0-1" class="text-input" value="" type="text" required autofocus><label data-hk="s00-0-0-2">Last Name</label><input data-hk="s00-0-0-3" class="text-input" value="" type="text" required><label data-hk="s00-0-0-4">Age</label><input data-hk="s00-0-0-5" class="text-input" value="" type="number" required min="1"></div><!--/--><div class=" mt-4 flex gap-2 justify-end"><!--#--><!--/--><button type="button">Next</button></div></form></div></div></astro-island>
+
+    
+  </body>
+</html>
