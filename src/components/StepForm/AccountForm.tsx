@@ -1,4 +1,5 @@
 import { FormWrapper } from "./FormWrapper";
+import { ImInput } from "./ImInput";
 
 type AccountProps = AccountData & {
   updateFields: (fields: Partial<AccountData>) => void;
@@ -11,30 +12,26 @@ interface AccountData {
 export function AccountForm({ email, password, updateFields }: AccountProps) {
   return (
     <FormWrapper title="Account Creaion">
-      <label>Email</label>
-      <input
-        class="text-input"
+      <ImInput
+        label="Email"
+        placeholder="Enter email"
         value={email}
         onChange={(e) =>
           updateFields({
-            email: e.currentTarget.value,
+            email: e.target.value,
           })
         }
-        type="text"
-        autofocus
-        required
       />
-      <label>Passord</label>
-      <input
-        class="text-input"
-        value={password}
+      <ImInput
+        label="Passord"
+        placeholder="Enter password"
+        value={email}
         onChange={(e) =>
           updateFields({
-            password: e.currentTarget.value,
+            password: e.target.value,
           })
         }
         type="password"
-        required
       />
     </FormWrapper>
   );

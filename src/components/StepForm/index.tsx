@@ -65,14 +65,16 @@ export default function StepForm() {
 
   return (
     <div class="h-[100vh] flex items-center justify-center">
-      <div class="relative bg-white border-solid border-[1px] border-black  w-[600px] mx-auto p-4">
+      <div class="relative bg-Zinc-300 border-solid border-[1px] border-gray  w-[600px] mx-auto p-8">
         <form onSubmit={sumbmitHandle}>
           <div class="absolute top-2 right-5">
-            {currentStepIndex() + 1}/ {steps.length}
+            {currentStepIndex() + 1} / {steps.length}
           </div>
           {Step()}
           <div class=" mt-4 flex gap-2 justify-end">
             {isFirstStep() || <button onClick={back}>Back</button>}
+
+              
             <button type="button" onclick={nextHandle}>
               {isLastStep() ? "Finish" : "Next"}
             </button>

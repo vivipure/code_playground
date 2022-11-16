@@ -1,4 +1,5 @@
 import { FormWrapper } from "./FormWrapper";
+import { ImInput } from "./ImInput";
 
 type UserProps = UserData & {
   updateFields: (fields: Partial<UserData>) => void;
@@ -17,44 +18,37 @@ export function UserForm({
 }: UserProps) {
   return (
     <FormWrapper title="User Details">
-      <label>First Name</label>
-      <input
-        class="text-input"
+      <ImInput
         value={firstName}
+        placeholder="Enter your firstname"
         onChange={(e) =>
           updateFields({
-            firstName: e.currentTarget.value,
+            firstName: e.target.value,
           })
         }
-        type="text"
-        required
-        autofocus
+        label="FirstName"
       />
-      <label>Last Name</label>
-      <input
-        class="text-input"
+      <ImInput
         value={lastName}
+        placeholder="Enter your lastName"
         onChange={(e) =>
           updateFields({
-            lastName: e.currentTarget.value,
+            lastName: e.target.value,
           })
         }
-        type="text"
-        required
+        label="LastName"
       />
-      <label>Age</label>
-      <input
-        class="text-input"
+       <ImInput
         value={age}
+        placeholder="Enter your age"
         onChange={(e) =>
           updateFields({
-            age: e.currentTarget.value,
+            age: e.target.value,
           })
         }
-        type="number"
-        required
-        min={1}
+        label="Age"
       />
+
     </FormWrapper>
   );
 }
