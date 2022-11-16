@@ -110,9 +110,6 @@ export default function PlayGround() {
             onChange={fileChangeHandle}
           />
         </div>
-        <div class="flex-1 justify-end flex">
-          <a class="text-white" href="/">回到首页</a>
-        </div>
       </div>
 
       <div class="flex flex-1">

@@ -1,8 +1,7 @@
 # Code Playground
 
-> online code editor 
+Astro + Solid-js + Typescript 
 
 
-1. tech: Astro + Solid-js + Typescript + Monaco
-2. support diff mode
+url: https://vivipure.github.io/code_playground/
 

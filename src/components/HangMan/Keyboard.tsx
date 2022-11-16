@@ -35,11 +35,11 @@ interface IProps {
 
 export function Keyboard(props: IProps) {
   return (
-    <div class="grid gap-2 grid-cols-keyboard ">
+    <div class="grid gap-2 px-10 grid-cols-keyboard ">
       {KEYS.map((key) => {
         const isActive = props.activeLetters.includes(key.toLowerCase());
         const isInactive = props.inactveLetters.includes(key.toLowerCase());
-        console.log(key, isActive)
+
         return (
           <button
             disabled={isActive || isInactive}

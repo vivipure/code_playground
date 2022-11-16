@@ -1,52 +1,45 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 
 const list = [
   {
     label: "在线编辑器",
+    desc: "在线编辑HTML,CSS,JS",
     value: "playground",
   },
   {
     label: "diff editor",
+    desc: "代码diff 比较",
     value: "diff",
   },
   {
-    label: "代码片段",
-    value: "playground",
-  },
-  {
-    label: "首页",
-    value: "home",
-  },
-  {
     label: "步骤表单",
+    desc: "Solidjs 实现的步骤表单",
     value: "stepform",
   },
   {
     label: "Markdown",
+    desc: "markdown 编辑器",
     value: "markdown",
   },
   {
     label: "HangMan",
+    desc: "HangMan 猜词小游戏",
     value: "hangman",
   },
 ];
 ---
 
-<Layout title="code playground">
-  <main class="grid grid-cols-10">
+<Layout isHome={true} title="code playground">
+  <main class="2xl:w-[1300px] mx-[auto] grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2    gap-4 justify-center px-2 py-4 ">
     {
       list.map((item) => {
         return (
-          <a
-            class="cursor-pointer hover:bg-slate-400 hover:text-white  flex justify-center items-center py-8 text-blue-500  border-black border-solid border-2 ml-[-2px] mt-[-2px]"
-            href={`./${item.value}`}
-          >
-            {item.label}
-          </a>
+          <Card title={item.label} subTitle={item.desc} url={`./${item.value}`} />
         );
       })
-	  
     }
+    
   </main>
 </Layout>

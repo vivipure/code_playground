@@ -17,8 +17,6 @@ export default function Editor(props: Partial<PropsInterface>) {
 
   createEffect(() => {
     if (props.language !== language || props.value !== value) {
-      console.log("我被触发了");
-
       isUpdateFromParent = true;
       updateOption(props.value || "", props.language!);
     }
@@ -42,17 +40,6 @@ export default function Editor(props: Partial<PropsInterface>) {
     };
     editorInstance.onDidContentSizeChange(() => {
       editorInstance!.layout()
-      // const width = editorContainer!.clientWidth;
-      // const height = editorContainer!.clientHeight;
-      // const contentHeight = Math.min(
-      //   height,
-      //   editorInstance!.getContentHeight()
-      // );
-
-      // try {
-      //   editorInstance!.layout({ width, height: contentHeight });
-      // } finally {
-      // }
     });
 
     if (props.onChange) {
