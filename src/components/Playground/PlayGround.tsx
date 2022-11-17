@@ -102,22 +102,18 @@ export default function PlayGround() {
 
   return (
     <div class="w-full h-[100vh] flex flex-col">
-      <div class="flex bg-black">
-        <div class="flex-1 ">
-          <EditFileList
-            list={fileList()}
-            activeFile={activeFile()}
-            onChange={fileChangeHandle}
-          />
-        </div>
-      </div>
+      <EditFileList
+        list={fileList()}
+        activeFile={activeFile()}
+        onChange={fileChangeHandle}
+      />
 
       <div class="flex flex-1">
-        <div class="flex-1 flex flex-row">
+        <div class="overflow-hidden flex-1 flex flex-row">
           <Editor onChange={codeChange} language={language()} value={value()} />
         </div>
         <div class="h-full w-1 bg-slate-500"></div>
-        <div class="flex-1 h-full">
+        <div class="flex-1 h-full bg-white">
           <iframe class="h-full w-full" ref={iframeRef}></iframe>
         </div>
       </div>

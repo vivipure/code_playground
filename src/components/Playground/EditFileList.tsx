@@ -28,18 +28,47 @@ export default function EditFileList({
   };
 
   return (
-    <ul class="flex  bg-black">
+    <ul
+      class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 "
+      id="tabs-tab"
+      role="tablist"
+    >
       {list.map((f) => {
+        const isActive = f.id === currentFile().id;
         return (
           <li
-            class={`border-solid font-serif  min-w-[4em] text-center  border-transparent  border-b-4 cursor-pointer  ${
-              f.id === currentFile().id
-                ? "border-green-400 text-green-400 "
-                : "text-white hover:border-green-400  hover:text-green-400"
-            }`}
+            class="nav-item"
+            role="presentation"
             onClick={() => clickHandle(f)}
           >
-            {f.fileName}
+            <span
+              class={`
+              nav-link
+              block
+              cursor-pointer
+              font-medium
+              text-xs
+              leading-tight
+              uppercase
+              border-x-0 border-t-0 border-b-2 border-transparent
+              px-6
+              py-3
+              my-2
+              hover:border-transparent hover:bg-gray-100
+              hover:text-[#2563eb] hover:border-[#2563eb]
+              focus:border-transparent
+              active
+              ${isActive ? "text-[#2563eb] border-[#2563eb]" : ""}
+            `}
+              id="tabs-home-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#tabs-home"
+              role="tab"
+              aria-controls="tabs-home"
+              aria-selected="true"
+            >
+              {f.fileName}
+            </span>
           </li>
         );
       })}
