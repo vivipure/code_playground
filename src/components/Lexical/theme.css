@@ -5,3 +5,10 @@
 .editor-text-italic {
     font-style: italic;
 }
+
+.editor-text-code {
+    background-color: #f0f2f5;
+    padding: 1px 0.25rem;
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 94%;
+}

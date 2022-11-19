@@ -4,7 +4,6 @@ import { AddressForm } from "./AddressForm";
 import { useMultistepForm } from "./useMultistepForm";
 import { UserForm } from "./UserForms";
 
-import "./index.css";
 
 const INIT_DATA = {
   firstName: "",

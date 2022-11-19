@@ -13,5 +13,5 @@ export default defineConfig({
   base: '/code_playground/',
   vite: {
     base: '/code_playground/',
-  }
+  },
 });

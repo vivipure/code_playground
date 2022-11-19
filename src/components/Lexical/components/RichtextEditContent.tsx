@@ -12,8 +12,9 @@ export function RichtextEditContent() {
     if (editorContainer) {
       registerRichText(editor);
       editor.setRootElement(editorContainer);
-      editor.update(() => {
-      });
+      editor.registerUpdateListener(() => {
+        console.log(editor.getEditorState())
+      })
     }
   });
 

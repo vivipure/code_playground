@@ -1,20 +1,9 @@
 import { FORMAT_TEXT_COMMAND, TextFormatType } from "lexical";
 import { useEditor } from "../hooks/useEditor";
-import "../assets/iconfont.css";
 
 export function ToolBar() {
   const editor = useEditor();
 
-  const fontBoldHandle = () => {
-    editor.update(() => {
-      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-    });
-  };
-  const fontItalicHandle = () => {
-    editor.update(() => {
-      editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-    });
-  };
   const changeTextHandle = (type: TextFormatType) => {
     editor.update(() => {
       editor.dispatchCommand(FORMAT_TEXT_COMMAND, type);
@@ -33,13 +22,20 @@ export function ToolBar() {
       icon: "i ant-design:underline-outlined",
       type: "underline",
     },
+    {
+      icon: "i codicon:code",
+      type: "code",
+    },
   ];
 
   return (
-    <ul class="flex gap-4 px-4 cursor-pointer">
+    <ul class="flex  px-4 cursor-pointer bg-white">
       {tools.map((t) => {
         return (
-          <li class="text-lg" onClick={() => changeTextHandle(t.type)}>
+          <li
+            class="text-lg hover:bg-gray-200 px-2 flex items-center"
+            onClick={() => changeTextHandle(t.type)}
+          >
             <i class={t.icon}></i>
           </li>
         );
