@@ -1,6 +1,6 @@
 # Code Playground
 
-Astro + Solid-js + Typescript 
+Astro + Solidjs + Typescript 
 
 
 url: https://vivipure.github.io/code_playground/
